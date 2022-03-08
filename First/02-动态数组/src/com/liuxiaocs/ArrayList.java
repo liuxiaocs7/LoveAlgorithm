@@ -1,8 +1,11 @@
 package com.liuxiaocs;
 
-import java.util.Arrays;
-
-public class ArrayList {
+/**
+ * 自定义动态数组
+ *
+ * @param <E> 类型
+ */
+public class ArrayList<E> {
 
     /**
      * 元素的数量
@@ -10,9 +13,9 @@ public class ArrayList {
     private int size;
 
     /**
-     * 所有的元素
+     * 存储所有的元素
      */
-    private int[] elements;
+    private E[] elements;
 
     /**
      * 默认初始容量
@@ -26,23 +29,27 @@ public class ArrayList {
 
     public ArrayList(int capacity) {
         capacity = (capacity < DEFAULT_CAPACITY) ? DEFAULT_CAPACITY : capacity;
-        elements = new int[capacity];
+        elements = (E[]) new Object[capacity];
     }
 
     public ArrayList() {
         this(DEFAULT_CAPACITY);
     }
 
-
     /**
-     * 清除所有元素
+     * 清除所有元素的引用
      */
     public void clear() {
+        for (int i = 0; i < size; i++) {
+            elements[i] = null;
+        }
         size = 0;
     }
 
     /**
      * 元素的数量
+     *
+     * @return int
      */
     public int size() {
         return size;
@@ -59,15 +66,18 @@ public class ArrayList {
 
     /**
      * 是否包含某个元素
+     *
+     * @param element 查询元素
+     * @return boolean
      */
-    public boolean contains(int element) {
+    public boolean contains(E element) {
         return indexOf(element) != ELEMENT_NOT_FOUND;
     }
 
     /**
      * 添加元素到尾部
      */
-    public void add(int element) {
+    public void add(E element) {
         // elements[size++] = element;
         add(size, element);
     }
@@ -75,7 +85,7 @@ public class ArrayList {
     /**
      * 获取index位置的元素
      */
-    public int get(int index) {
+    public E get(int index) {
         rangeCheck(index);
         return elements[index];
     }
@@ -87,9 +97,9 @@ public class ArrayList {
      * @param element
      * @return 原来的元素
      */
-    public int set(int index, int element) {
+    public E set(int index, E element) {
         rangeCheck(index);
-        int old = elements[index];
+        E old = elements[index];
         elements[index] = element;
         return old;
     }
@@ -97,7 +107,7 @@ public class ArrayList {
     /**
      * 在index位置插入一个元素
      */
-    public void add(int index, int element) {
+    public void add(int index, E element) {
         rangeCheckForAdd(index);
         ensureCapacity(size + 1);
 
@@ -111,23 +121,31 @@ public class ArrayList {
     /**
      * 删除index位置的元素
      */
-    public int remove(int index) {
+    public E remove(int index) {
         rangeCheck(index);
-        int old = elements[index];
+        E old = elements[index];
         for (int i = index + 1; i <= size - 1; i++) {
             elements[i - 1] = elements[i];
         }
-        size--;
+        elements[--size] = null;
         return old;
     }
 
     /**
      * 查看元素的索引
      */
-    public int indexOf(int element) {
-        for (int i = 0; i < elements.length; i++) {
-            if (elements[i] == element) return i;
+    public int indexOf(E element) {
+        if (element == null) {
+            for (int i = 0; i < size; i++) {
+                if (elements[i] == null) return i;
+            }
+        } else {
+            for (int i = 0; i < size; i++) {
+                // 此时element一定不为空，放到前面
+                if (element.equals(elements[i])) return i;
+            }
         }
+
         return ELEMENT_NOT_FOUND;
     }
 
@@ -142,7 +160,7 @@ public class ArrayList {
 
         // newCapacity = oldCapacity * 1.5 新容量为旧容量的1.5倍
         int newCapacity = oldCapacity + (oldCapacity >> 1);
-        int[] newElements = new int[newCapacity];
+        E[] newElements = (E[]) new Object[newCapacity];
         for (int i = 0; i < size; i++) {
             newElements[i] = elements[i];
         }
