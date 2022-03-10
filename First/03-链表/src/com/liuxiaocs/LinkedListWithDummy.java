@@ -73,7 +73,7 @@ public class LinkedListWithDummy<E> extends AbstractList<E> {
 
     @Override
     public int indexOf(E element) {
-        Node<E> node = first;
+        Node<E> node = first.next;
         if (element == null) {
             for (int i = 0; i < size; i++) {
                 if (node.element == null) return i;
