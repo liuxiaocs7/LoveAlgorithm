@@ -10,6 +10,8 @@ public class Main {
         test4(new LinkedList<>());
         test4(new LinkedListWithDummy<>());
         test4(new DoubleLinkedList<>());
+
+        test4(new SingleCircleLinkedList<>());
     }
 
     /**
