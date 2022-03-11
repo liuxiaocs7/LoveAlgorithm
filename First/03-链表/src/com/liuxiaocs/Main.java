@@ -12,6 +12,7 @@ public class Main {
         test4(new DoubleLinkedList<>());
 
         test4(new SingleCircleLinkedList<>());
+        test4(new DoubleCircleLinkedList<>());
     }
 
     /**
