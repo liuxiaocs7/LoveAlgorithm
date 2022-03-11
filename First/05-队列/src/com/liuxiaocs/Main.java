@@ -1,5 +1,6 @@
 package com.liuxiaocs;
 
+import com.liuxiaocs.circle.CircleDeque;
 import com.liuxiaocs.circle.CircleQueue;
 
 public class Main {
@@ -8,8 +9,11 @@ public class Main {
 
         test2();
 
-        System.out.println("==================");
+        System.out.println("\n==================");
         test3();
+
+        System.out.println("\n==================");
+        test4();
     }
 
     /**
@@ -23,7 +27,7 @@ public class Main {
         queue.enQueue(44);
 
         while (!queue.isEmpty()) {
-            System.out.println(queue.deQueue());
+            System.out.print(queue.deQueue() + " ");
         }
     }
 
@@ -39,7 +43,7 @@ public class Main {
 
         while (!queue.isEmpty()) {
             // System.out.println(queue.deQueueFront());
-            System.out.println(queue.deQueueRear());
+            System.out.println(queue.deQueueRear() + " ");
         }
     }
 
@@ -64,7 +68,43 @@ public class Main {
 
         // 注意此时队头在5的位置上
         while (!queue.isEmpty()) {
-            System.out.println(queue.deQueue());
+            System.out.print(queue.deQueue() + " ");
+        }
+    }
+
+    /**
+     * 测试双向循环队列
+     */
+    private static void test4() {
+        CircleDeque<Integer> queue = new CircleDeque<>();
+        // 头5 4 3 2 1 100 101 102 103 104 105 106 8 7 6 尾
+
+        // 头 8 7 6 5 4 3 2 1 100 101 102 103 104 105 106 | 107 108 109 null null 10 9 尾
+        for (int i = 0; i < 10; i++) {
+            queue.enQueueFront(i + 1);
+            queue.enQueueRear(i + 100);
+        }
+
+        System.out.println("添加完元素：");
+        System.out.println(queue);
+        System.out.println();
+
+        // 头 null 7 6  5 4 3 2 1  100 101 102 103 104 105 106 null null null null null null null 尾
+        for (int i = 0; i < 3; i++) {
+            queue.deQueueFront();
+            queue.deQueueRear();
+        }
+
+        System.out.println("出队之后：");
+        System.out.println(queue);
+        System.out.println();
+
+        // 头 11 7 6  5 4 3 2 1  100 101 102 103 104 105 106 null null null null null null 12 尾
+        queue.enQueueFront(11);
+        queue.enQueueFront(12);
+        System.out.println(queue);
+        while (!queue.isEmpty()) {
+            System.out.print(queue.deQueueFront() + " ");
         }
     }
 }
