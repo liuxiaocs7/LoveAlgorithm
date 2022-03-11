@@ -13,6 +13,24 @@ public class Main {
 
         test4(new SingleCircleLinkedList<>());
         test4(new DoubleCircleLinkedList<>());
+
+        josephus();
+    }
+
+    private static void josephus() {
+        DoubleCircleAdvancedLinkedList<Integer> list = new DoubleCircleAdvancedLinkedList<>();
+        for (int i = 1; i <= 8; i++) {
+            list.add(i);
+        }
+
+        // 指向头节点(指向1)
+        list.reset();
+
+        while(!list.isEmpty()) {
+            list.next();
+            list.next();
+            System.out.println(list.remove());
+        }
     }
 
     /**
